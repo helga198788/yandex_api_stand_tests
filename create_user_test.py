@@ -1,23 +1,26 @@
 import sender_stand_request
 import data
-
-def get_user_body(first_name):
-    current_body = data.user_body.copy()
-    current_body["firstName"] = first_name
-    return current_body
-
-#user_body = get_user_body("Saminskaya")
-#print(user_body)
-
-#user_response = sender_stand_request.post_new_user(user_body)
-
-#print(user_response.status_code)
-
-def     negative_assert_symbol(first_name):
-        user_body = get_user_body(first_name)
+def newuser():
+        user_body = data.user_body.copy()
         response = sender_stand_request.post_new_user(user_body)
-        assert response.status_code == 400
-        assert response.json()["code"] == 400
-        assert response.json()["message"] == "Имя пользователя введено некорректно. " \
-                                             "Имя может содержать только русские или латинские буквы, " \
-                                             "длина должна быть не менее 2 и не более 15 символов"
+        return response
+
+#token = newuser().json()["authToken"]
+#print(token)
+
+def newkit(kit_body):
+        #kit_body = data.kit_body.copy()
+        response = sender_stand_request.post_new_kit(kit_body)
+        return response
+
+kit1 = newkit({"name":"a"})
+print(kit1.status_code,"<--- kit1")
+assert kit1.status_code == 201
+
+kit2= newkit({"name":"AbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdAbcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabC"})
+print(kit2.status_code,"<--- kit2")
+assert kit2.status_code == 201
+
+kit10 = newkit({})
+print(kit10.status_code,"<--- kit10")
+assert kit10.status_code == 400
